@@ -3,7 +3,6 @@
 #include <string.h>
 #include <conio.h>
 #include <windows.h>   // WinApi header
-// #include "validator.h"
 
 HANDLE  hConsole;
 int colorattribute = 0; // color attribute
@@ -45,6 +44,21 @@ int validateTime(int time) {
         return 1; // Valid
     }
     return 0; // Invalid
+}
+
+int validateStreet(const char *street) {
+    if (street == NULL || strlen(street) == 0) {
+        return 0; // Invalid if null or empty
+    }
+
+    for (int i = 0; street[i] != '\0'; i++) {
+        char c = street[i];
+        if (!isalnum(c) && c != ' ' && c != '-') {
+            return 0; // Invalid character found
+        }
+    }
+
+    return 1; // All characters are valid
 }
 
 int calculatePrice(const char *zone, int time) {
@@ -134,9 +148,13 @@ void add_parking(char path[]) {
         }
     } while (!validateNumberPlate(p.plate));
 
-    printf("Enter the street: ");
-    getchar(); // Clear the newline character left in the buffer
-    scanf("%[^\n]%*c", p.street);
+    do {
+        printf("Enter the street (letters, numbers, spaces, hyphens only): ");
+        scanf(" %[^\n]%*c", p.street); // Read line with spaces
+        if (!validateStreet(p.street)) {
+            printf("Invalid data, input again.\n");
+        }
+    } while (!validateStreet(p.street));
 
     // Validate zone
     do {
