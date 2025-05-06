@@ -11,9 +11,20 @@ int colorattribute = 0; // color attribute
 #define red_zone 1.5
 #define green_zone 2
 
+typedef struct payments {
+    char plate[8];
+    char street[100];
+    char zone[100];
+    int time;
+    float price;
+} payment;
+
+
+
+
 // Function to validate a number plate
 int validateNumberPlate(const char *plate) {
-    // Check if the plate length is exactly 7 characters
+    // Check if the plate length is exactly 7 characters [XY01XYZ]
     if (strlen(plate) != 7) {
         return 0; // Invalid
     }
@@ -72,14 +83,6 @@ int calculatePrice(const char *zone, int time) {
     }
     return 0; // Invalid zone
 }
-
-typedef struct payments {
-    char plate[8];
-    char street[100];
-    char zone[100];
-    int time;
-    float price;
-} payment;
 
 void header(int param) {
     if(param == 1){
@@ -384,7 +387,7 @@ int main() {
     SetConsoleTextAttribute(hConsole, 7); // default color is 7 (light gray on black)
     
 
-    char path[] = "C:\\Users\\Lenovo\\Desktop\\UVT\\Sem 2\\Programming Project\\c-project-write-to-file-TeoBulboacaUVT\\file.txt";
+    char path[] = "C:\\Users\\Lenovo\\Desktop\\UVT\\Sem 2\\Programming Project\\c-project-final-term-TeoBulboacaUVT\\parking_data.txt";
 
     do {
         header(1);
